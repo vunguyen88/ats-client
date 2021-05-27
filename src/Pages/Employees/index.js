@@ -7,34 +7,26 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'block'
-        // display: 'flex',
-        // justifyContent: 'flex-start',  
+        display: 'flex', 
     },
-    
+    wrapper: {
+        display: 'flex', 
+        flexDirection: 'column', 
+        width: '100%',
+        background: 'seaShell'
+    }
 }))
 function EmployeePage() {
     const classes = useStyles();
     return (
-        // <Grid container>
-        //     <Grid item xs={12}>
-        //     <NavBar />
-        //     </Grid>
-        //     <Grid item xs={12} style={{marginLeft: '75px'}}>
-        //     <TopBar style={{marginLeft: '100px'}}/>
-        //     </Grid>
-        //     <Grid item xs={12}>
-        //     <MenuBar style={{display: 'block'}}/>
-        //     </Grid>
-        // </Grid>
-        <div>
-            <NavBar className={classes.root}/>
-            <TopBar style={{marginLeft: '75px'}}/>
-            <MenuBar />
+
+        <div className={classes.root}>
+            <NavBar style={{display: 'block'}}/>
+           <div className={classes.wrapper}>
+                <TopBar style={{flexGrow: 1}}/>
+                <MenuBar style={{}}/>
+           </div>
         </div>
-            
-            
-       
     )
 }
 
