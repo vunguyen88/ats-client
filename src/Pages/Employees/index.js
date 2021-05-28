@@ -8,12 +8,13 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex', 
+        background: '#f0f0f5'
     },
     wrapper: {
         display: 'flex', 
         flexDirection: 'column', 
         width: '100%',
-        background: 'seaShell'
+        
     }
 }))
 function EmployeePage() {
