@@ -1,23 +1,9 @@
 import React from 'react'
-import NavBar from '../../components/NavBar';
-import TopBar from '../../components/TopBar';
-import MenuBar from './MenuBar';
-import UtilityBar from './UtilityBar';
 import { Grid, Box, Typography, InputBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex', 
-        backgroundColor: '#f0f0f5',
-        height: '100vh'
-    },
-    wrapper: {
-        flexDirection: 'column', 
-        width: '100%',
-        flexGrow: 1
-    },
     search: {
         display: 'inline',
         position: 'relative',
@@ -61,22 +47,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function EmployeePage() {
+export default function UtilityBar() {
     const classes = useStyles();
+    
     return (
-
-        <div className={classes.root}>
-            <NavBar style={{display: 'block'}}/>
-            <div className={classes.wrapper}>
-                <TopBar />
-                <MenuBar style={{}}/>
-                <UtilityBar />
-            </div>
-            
-            
-
+        <div>
+            <Box display='flex' m={3}> 
+                <Typography display='inline'>Browse</Typography>
+                <span style={{marginRight: '10%'}}></span>
+                <Typography display='inline'>Sort by</Typography>
+                <div style={{flexGrow: 1}}></div>
+                <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                        <SearchIcon />
+                    </div>
+                    <InputBase
+                        placeholder="Search employees"
+                        classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                        }}
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                </div>
+            </Box>    
         </div>
     )
 }
-
-export default EmployeePage
