@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import {Link} from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -83,6 +84,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const LIstItemStyle = {
+    color: 'white',
+}
+
 export default function NavBar() {
     
     const classes = useStyles();
@@ -137,35 +142,35 @@ export default function NavBar() {
                     <MenuIcon style={{ color: 'lightGrey' }}/>
                 </IconButton>
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to='/app/jobs'>
                     <ListItemIcon>
                         <WorkIcon style={{ color: 'lightGrey' }}/>
                     </ListItemIcon>
-                    <ListItemText primary="Jobs Opening" />
+                    <ListItemText style={LIstItemStyle} primary="Jobs Opening" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to='/app/candidates'>
                     <ListItemIcon>
                         <FileCopyIcon style={{ color: 'lightGrey' }}/>
                     </ListItemIcon>
-                    <ListItemText primary="New Hires" />
+                    <ListItemText style={LIstItemStyle} primary="New Hires" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to='/app/employees'>
                     <ListItemIcon>
                         <PeopleIcon style={{ color: 'lightGrey' }}/>
                     </ListItemIcon>
-                    <ListItemText primary="Employees" />
+                    <ListItemText style={LIstItemStyle} primary="Employees" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to='/app/timeoff'>
                     <ListItemIcon>
                         <AlarmIcon style={{ color: 'lightGrey' }}/>
                     </ListItemIcon>
-                    <ListItemText primary="Time Off" />
+                    <ListItemText style={LIstItemStyle} primary="Time Off" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to='/app/settings'>
                     <ListItemIcon>
                         <SettingsIcon style={{ color: 'lightGrey' }}/>
                     </ListItemIcon>
-                    <ListItemText primary="Settings" />
+                    <ListItemText style={LIstItemStyle} primary="Settings" />
                 </ListItem>
             </List>
         </Drawer>

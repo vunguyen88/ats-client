@@ -1,6 +1,7 @@
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -14,6 +15,51 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import AddNewUserDialog from '../../Pages/Employees/components/AddNewUserDialog';
+
+// const CustomButton = withStyles({
+//     root: {
+//         boxShadow: 'none',
+//         color: 'white',
+//         height: '40px',
+//         textTransform: 'none',
+//         fontSize: 16,
+//         padding: '6px 12px',
+//         marginLeft: '15px',
+//         border: '1px solid #dfdfdf',
+//         lineHeight: 1.5,
+//         backgroundColor: '#0077b3',
+//         borderColor: 'f2f2f2',
+//         fontFamily: [
+//         '-apple-system',
+//         'BlinkMacSystemFont',
+//         '"Segoe UI"',
+//         'Roboto',
+//         '"Helvetica Neue"',
+//         'Arial',
+//         'sans-serif',
+//         '"Apple Color Emoji"',
+//         '"Segoe UI Emoji"',
+//         '"Segoe UI Symbol"',
+//         ].join(','),
+
+//         '&:hover': {
+//             backgroundColor: '#00aaff',
+//             borderColor: 'f2f2f2',
+//             boxShadow: 'none',
+//         },
+
+//         '&:active': {
+//         boxShadow: 'none',
+//         backgroundColor: '#33bbff',
+//         borderColor: '#f2f2f2',
+//         },
+
+//         '&:focus': {
+//         boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+//         },
+//     }
+// })(Button);
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -106,6 +152,11 @@ export default function PrimarySearchAppBar() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const handleAddNewUserOpen = () => {
+        console.log('click')
+        return <AddNewUserDialog setModalOpen={true} />
+    }
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -133,33 +184,33 @@ export default function PrimarySearchAppBar() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-        <MenuItem>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-            </Badge>
-            </IconButton>
-            <p>Messages</p>
-        </MenuItem>
-        <MenuItem>
-            <IconButton aria-label="show 11 new notifications" color="inherit">
-            <Badge badgeContent={11} color="secondary">
-                <NotificationsIcon />
-            </Badge>
-            </IconButton>
-            <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={handleProfileMenuOpen}>
-            <IconButton
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
-            >
-            <AccountCircle />
-            </IconButton>
-            <p>Profile</p>
-        </MenuItem>
+            <MenuItem>
+                <IconButton aria-label="show 4 new mails" color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                    <MailIcon />
+                </Badge>
+                </IconButton>
+                <p>Messages</p>
+            </MenuItem>
+            <MenuItem>
+                <IconButton aria-label="show 11 new notifications" color="inherit">
+                <Badge badgeContent={11} color="secondary">
+                    <NotificationsIcon />
+                </Badge>
+                </IconButton>
+                <p>Notifications</p>
+            </MenuItem>
+            <MenuItem onClick={handleProfileMenuOpen}>
+                <IconButton
+                aria-label="account of current user"
+                aria-controls="primary-search-account-menu"
+                aria-haspopup="true"
+                color="inherit"
+                >
+                <AccountCircle />
+                </IconButton>
+                <p>Profile</p>
+            </MenuItem>
         </Menu>
     );
 
@@ -194,6 +245,8 @@ export default function PrimarySearchAppBar() {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
+                        {/* <CustomButton onClick={ handleAddNewUserOpen }>+ Add New</CustomButton> */}
+                        <AddNewUserDialog />
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <MailIcon />

@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavBar from '../../components/NavBar';
 import TopBar from '../../components/TopBar';
-import MenuBar from './MenuBar';
-import UtilityBar from './UtilityBar';
+import MenuBar from './components/MenuBar';
+import UtilityBar from './components/UtilityBar';
+import EmployeeCard from './components/EmployeeCard';
 import { Grid, Box, Typography, InputBase } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import { getAllEmployees } from './state/EmployeesActions';
+import { useForm } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,8 +65,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function EmployeePage() {
+function EmployeesPage() {
     const classes = useStyles();
+    let employees = useSelector(state => state.employees || []);
+    console.log('employees list ', employees)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllEmployees());
+        console.log('fetch data')
+    }, [])
     return (
 
         <div className={classes.root}>
@@ -71,6 +83,13 @@ function EmployeePage() {
                 <TopBar />
                 <MenuBar style={{}}/>
                 <UtilityBar />
+                <Box display="flex">
+                {employees.map(employee => {
+                    return <EmployeeCard key={employee.userId} firstName={employee.firstName} lastName={employee.lastName} avatarUrl={employee.avatarUrl} jobTitle={employee.jobTitle} department={employee.department} join={employee.join} />
+                })}
+                </Box>
+                
+                
             </div>
             
             
@@ -79,4 +98,4 @@ function EmployeePage() {
     )
 }
 
-export default EmployeePage
+export default EmployeesPage
