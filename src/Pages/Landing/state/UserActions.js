@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const userSignIn = (userCredential) => async(dispatch) => {
     try {
-        const res = await axios.post('http://localhost:5000/applicant-tracking-syste-74466/us-central1/api/login', userCredential);
+        const res = await axios.post('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/login', userCredential);
         console.log('res success ', res.data)
         dispatch({
             type: 'USER_SIGNIN_SUCCESS',

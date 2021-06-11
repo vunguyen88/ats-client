@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import NavBar from '../../components/NavBar';
 import TopBar from '../../components/TopBar';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuBar from './components/MenuBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllJobs } from './state/JobActions';
+import { DataGrid, GridOverlay } from '@material-ui/data-grid';
+import moment from 'moment';
+import { LinearProgress } from '@material-ui/core';
+import { Grid, Box, Card, Typography, InputBase } from '@material-ui/core';
+//import { iteratorSymbol } from 'immer/dist/internal';
+
 // import UtilityBar from './components/UtilityBar';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,51 +24,67 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         flexGrow: 1
     },
-    // search: {
-    //     display: 'inline',
-    //     position: 'relative',
-    //     borderRadius: theme.shape.borderRadius,
-    //     // backgroundColor: fade(theme.palette.common.white, 0.15),
-    //     backgroundColor: 'whiteSmoke',
-    //     '&:hover': {
-    //     // backgroundColor: fade(theme.palette.common.white, 0.25),
-    //     backgroundColor: theme.palette.common.red,
-    //     },
-    //     marginRight: theme.spacing(2),
-    //     marginLeft: 0,
-    //     width: '100%',
-    //     [theme.breakpoints.up('sm')]: {
-    //     marginLeft: theme.spacing(3),
-    //     width: '15%',
-    //     },
-    // },
-    // searchIcon: {
-    //     padding: theme.spacing(0, 2),
-    //     height: '100%',
-    //     position: 'absolute',
-    //     pointerEvents: 'none',
-    //     display: 'inline',
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     top: '5px'
-    // },
-    // inputRoot: {
-    //     color: 'inherit',
-    // },
-    // inputInput: {
-    //     padding: theme.spacing(1, 1, 1, 0),
-    //     // vertical padding + font size from searchIcon
-    //     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    //     transition: theme.transitions.create('width'),
-    //     width: '100%',
-    //     [theme.breakpoints.up('md')]: {
-    //     width: '20ch',
-    //     },
-    // },
 }))
+
+function CustomLoadingOverlay() {
+    return (
+        <GridOverlay>
+            <div style={{ position: 'absolute', top: 10, width: '100%' }}>
+                <LinearProgress />
+            </div>
+        </GridOverlay>
+    )
+}
 
 export default function JobsOpeningPage() {
     const classes = useStyles();
+    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    let columns = [
+        { field: 'jobTitle', width: 250, renderHeader: () => (<strong style={{ fontSize: 17 }}>Job Title</strong>)},
+        { field: 'city', width: 150, renderHeader: () => (<strong style={{ fontSize: 17}}>City</strong>)},
+        { field: 'clientName', width: 250, renderHeader: () => (<strong style={{ fontSize: 17}}>Client Name</strong>)},
+        { field: 'createdOn', type: 'date', width: 140, renderHeader: () => (<strong style={{ fontSize: 17}}>Created On</strong>)},
+        { field: 'jobStatus', width: 150, renderHeader: () => (<strong style={{ fontSize: 17}}>Job Status</strong>)},
+        { field: 'numberOfPositions', width: 115, renderHeader: () => (<strong style={{ fontSize: 17}}>Needed</strong>)},
+        { field: 'appliedCandidates', width: 140, renderHeader: () => (<strong style={{ fontSize: 17}}>Candidates</strong>)},
+        { field: 'hired', width: 100, renderHeader: () => (<strong style={{ fontSize: 17}}>Hired</strong>)},
+    ]
+    const [data, setData] = useState({ columns: columns, rows: [] })
+    
+    let jobs = useSelector(state => state.jobs || {});
+    
+
+    useEffect(() => {
+        let dataRows = []
+        dispatch(getAllJobs());
+        console.log('jobs selector ', jobs)
+        if (jobs.data) {
+            console.log('jobs in useEffect ', jobs)
+            jobs.data.forEach(job => {
+                dataRows.push({ 
+                    jobTitle: job.jobTitle, 
+                    city: job.city, 
+                    clientName: job.clientName, 
+                    createdOn: moment(job.createdOn).format('M/DD/YYYY'), 
+                    jobStatus: job.jobStatus,
+                    jobId: job.jobId,
+                    id: job.jobId, 
+                    numberOfPositions: job.numberOfPositions, 
+                    appliedCandidates: job.appliedCandidates > 0 ? job.appliedCandidates.length : 0
+                })
+            })
+            setLoading(false);
+            setData({ columns, rows: dataRows })
+            console.log('data ', data)
+        }
+        console.log('fetch all jobs after useeffect', jobs)
+    }, [])
+    
+    // console.log('data in grid ', data)
+    // setLoading(false);
+    
+
 
     return (
         <div className={classes.root}>
@@ -68,6 +92,25 @@ export default function JobsOpeningPage() {
             <div className={classes.wrapper}>
                 <TopBar />
                 <MenuBar style={{}}/>
+                <Grid container>
+                    <Grid item md={12} xs={12}>
+                        <Card>
+                            <Box height="700px">
+                                <DataGrid
+                                    {...data}
+                                    //loading={loading}
+                                    pageSize={50}
+                                    //onRowSelected={handleRowClick}
+                                    // components={{
+                                    //     LoadingOverlay: CustomLoadingOverlay
+                                    // }}
+                                >
+                                </DataGrid>
+                            </Box>
+                        </Card>                
+                    </Grid>
+                </Grid>
+                
                 {/* <UtilityBar /> */}
                 {/* <Box display="flex">
                 {employees.map(employee => {

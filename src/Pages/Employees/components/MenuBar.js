@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Box, Button } from '@material-ui/core';
+import AddNewUserDialog from './AddNewUserDialog';
 
 const CustomButton = withStyles({
     root: {
@@ -61,10 +62,11 @@ export default function MenuBar() {
                         Employees
                     </Typography>
                     <div className={classes.root} />
-                    <Box>              
+                    <Box display='flex'>              
                         <CustomButton>Import</CustomButton>
                         <CustomButton>Export</CustomButton>
-                        <CustomButton>Add Employee</CustomButton>
+                        {/* <CustomButton>Add Employee</CustomButton> */}
+                        <AddNewUserDialog />
                     </Box>
                 </Toolbar>
             </AppBar>

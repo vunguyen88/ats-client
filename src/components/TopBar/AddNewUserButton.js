@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
-import { addNewEmployee } from '../state/EmployeesActions';
+//import { addNewEmployee } from '../state/EmployeesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid'; 
 
@@ -20,9 +20,9 @@ const CustomButton = withStyles({
         boxShadow: 'none',
         textTransform: 'none',
         fontSize: 16,
-        padding: '6px 12px',
-        marginLeft: '15px',
-        border: '1px solid #dfdfdf',
+        padding: '8px 15px',
+        //marginLeft: '15px',
+        //border: '1px solid #dfdfdf',
         lineHeight: 1.5,
         backgroundColor: 'white',
         borderColor: 'f2f2f2',
@@ -40,21 +40,21 @@ const CustomButton = withStyles({
         ].join(','),
         '&:hover': {
         //backgroundColor: 'gray',
-        borderColor: 'f2f2f2',
+        //borderColor: 'f2f2f2',
         boxShadow: 'none',
         },
         '&:active': {
         boxShadow: 'none',
         //backgroundColor: 'white',
-        borderColor: '#f2f2f2',
+        //borderColor: '#f2f2f2',
         },
         '&:focus': {
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+        //boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
         },
     }
 })(Button);
 
-export default function AddNewUserDialog() {
+export default function AddNewUserDialog({ setAnchorEl }) {
     const [state, setState] = useState({
         firstName: '',
         lastName: '',
@@ -74,6 +74,7 @@ export default function AddNewUserDialog() {
 
     const handleClose = () => {
         setOpen(false);
+        setAnchorEl(null);
     }
     // const handleAddNewUser = () => {
     //     console.log('add new user')
@@ -84,9 +85,10 @@ export default function AddNewUserDialog() {
         setState({...state, [event.target.id]: event.target.value})
     }
     const onSubmit = () => {
-        dispatch(addNewEmployee({ firstName: state.firstName, lastName: state.lastName, jobTitle: state.jobTitle, department: state.department, email: state.email, location: state.location, join: '2021', userId: uuidv4(), userUID: uuidv4(), role: 'user' }))
-        console.log({ firstName: state.firstName, lastName: state.lastName, jobTitle: state.jobTitle, department: state.department, email: state.email });
+        //dispatch(addNewEmployee({ firstName: state.firstName, lastName: state.lastName, jobTitle: state.jobTitle, department: state.department, email: state.email, location: state.location, join: '2021', userId: uuidv4(), userUID: uuidv4(), role: 'user' }))
+        //console.log({ firstName: state.firstName, lastName: state.lastName, jobTitle: state.jobTitle, department: state.department, email: state.email });
         setOpen(false);
+        setAnchorEl(null);
     }
 
     return (

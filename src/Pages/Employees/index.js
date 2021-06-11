@@ -88,12 +88,7 @@ function EmployeesPage() {
                     return <EmployeeCard key={employee.userId} firstName={employee.firstName} lastName={employee.lastName} avatarUrl={employee.avatarUrl} jobTitle={employee.jobTitle} department={employee.department} join={employee.join} />
                 })}
                 </Box>
-                
-                
             </div>
-            
-            
-
         </div>
     )
 }

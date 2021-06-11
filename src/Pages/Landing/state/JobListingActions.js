@@ -3,7 +3,7 @@ import axios from 'axios';
 export const getJobListings = () => async(dispatch) => {
     try {
         //const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/jobs');
-        const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-central1/api/jobs');
+        const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs');
         // console.log('get jobs in action ', res.data)
         dispatch({
             type: 'GET_JOB_LISTINGS_SUCCESS',
@@ -14,6 +14,30 @@ export const getJobListings = () => async(dispatch) => {
     }
 }
 
+export const applyJob = (candidate) => async(dispatch) => {
+    console.log('apply job action ', candidate)
+    let formData = new FormData(); 
+    formData.append('firstName', candidate.firstName);  
+    formData.append('lastName', candidate.lastName);
+    formData.append('email', candidate.email);
+    formData.append('zipCode', candidate.zipCode);
+    formData.append('resume', candidate.fileUpload);
+    formData.append('jobTitle', candidate.jobTitle);
+    formData.append('clientName', candidate.clientName);
+    
+    const config = {     
+        headers: { 'content-type': 'multipart/form-data' }
+    }
+    try {
+        const res = await axios.post(`http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs/${candidate.jobId}/apply`, formData, config);
+        dispatch({
+            type: 'POST_APPLY_JOB_SUCCESS',
+            payload: candidate,
+        })
+    } catch (err) {
+        console.error(err);
+    }
+}
 // export const addNewEmployee = (userData) => async(dispatch) => {
 //     try {
 //         //const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/users');

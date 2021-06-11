@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     left: {
         minWidth: '50%',
         background: 'white',
+        overflow: 'scroll',
     },
     right: {
         
@@ -53,7 +54,7 @@ export default function Landing() {
         <div className={classes.root}>
             <div className={classes.left}>
                 {jobListings.map(job => {
-                    return <Job jobTitle={job.jobTitle} clientName={job.clientName} city={job.city} state={job.state} jobSummary={job.jobSummary} daysPosted={job.daysPosted} />
+                    return <Job jobId={job.jobId} jobTitle={job.jobTitle} clientName={job.clientName} city={job.city} state={job.state} jobSummary={job.jobSummary} daysPosted={job.daysPosted} />
                 })}   
             </div>
             <div className={classes.right}>

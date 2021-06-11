@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container, Card, CardMedia, CardContent } from '@material-ui/core';
+import ApplyJobDialog from './ApplyJobDialog';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,47 +55,48 @@ const useStyles = makeStyles((theme) => ({
     }    
 }));
 
-const ApplyButton = withStyles({
-    root: {
-        boxShadow: 'none',
-        textTransform: 'none',
-        fontSize: 16,
-        padding: '6px 12px',
-        marginRight: '1rem',
-        border: '1px solid #dfdfdf',
-        lineHeight: 1.5,
-        color: 'white',
-        backgroundColor: 'cadetBlue',
-        borderColor: 'f2f2f2',
-        fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-        ].join(','),
-        '&:hover': {
-        //backgroundColor: 'gray',
-        borderColor: 'f2f2f2',
-        boxShadow: 'none',
-        },
-        '&:active': {
-        boxShadow: 'none',
-        //backgroundColor: 'white',
-        borderColor: '#f2f2f2',
-        },
-        '&:focus': {
-        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-        },
-    }
-})(Button);
+// const ApplyButton = withStyles({
+//     root: {
+//         boxShadow: 'none',
+//         textTransform: 'none',
+//         fontSize: 16,
+//         padding: '6px 12px',
+//         marginRight: '1rem',
+//         border: '1px solid #dfdfdf',
+//         lineHeight: 1.5,
+//         color: 'white',
+//         backgroundColor: 'cadetBlue',
+//         borderColor: 'f2f2f2',
+//         fontFamily: [
+//         '-apple-system',
+//         'BlinkMacSystemFont',
+//         '"Segoe UI"',
+//         'Roboto',
+//         '"Helvetica Neue"',
+//         'Arial',
+//         'sans-serif',
+//         '"Apple Color Emoji"',
+//         '"Segoe UI Emoji"',
+//         '"Segoe UI Symbol"',
+//         ].join(','),
+//         '&:hover': {
+//         //backgroundColor: 'gray',
+//         borderColor: 'f2f2f2',
+//         boxShadow: 'none',
+//         },
+//         '&:active': {
+//         boxShadow: 'none',
+//         //backgroundColor: 'white',
+//         borderColor: '#f2f2f2',
+//         },
+//         '&:focus': {
+//         boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+//         },
+//     }
+// })(Button);
 
 export default function Job(props) {
+    console.log('props in job ', props)
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -136,7 +138,7 @@ export default function Job(props) {
                         {/* 2 days ago */}{props.daysPosted} days ago
                     </Box>
                 </Typography>
-                <ApplyButton>Apply</ApplyButton>
+                <ApplyJobDialog jobId={props.jobId} jobTitle={props.jobTitle} clientName={props.clientName}>Apply</ApplyJobDialog>
             </div>
         </div>
     )

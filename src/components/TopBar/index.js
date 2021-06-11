@@ -16,6 +16,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import AddNewUserDialog from '../../Pages/Employees/components/AddNewUserDialog';
+//import AddNewButton from './AddNewUserDialog';
+import PopOverButton from './PopOverButton';
 
 // const CustomButton = withStyles({
 //     root: {
@@ -152,10 +154,10 @@ export default function PrimarySearchAppBar() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
-    const handleAddNewUserOpen = () => {
-        console.log('click')
-        return <AddNewUserDialog setModalOpen={true} />
-    }
+    // const handleAddNewUserOpen = () => {
+    //     console.log('click')
+    //     return <AddNewUserDialog setModalOpen={true} />
+    // }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -246,7 +248,11 @@ export default function PrimarySearchAppBar() {
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         {/* <CustomButton onClick={ handleAddNewUserOpen }>+ Add New</CustomButton> */}
-                        <AddNewUserDialog />
+                        {/* <AddNewUserDialog /> */}
+                        {/* <AddNewButton /> */}
+                        <PopOverButton />
+
+
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <MailIcon />

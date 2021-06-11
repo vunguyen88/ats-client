@@ -60,13 +60,13 @@ export default function MenuBar(props) {
             <AppBar position="static" style={{background: '#f2f2f2'}}>
                 <Toolbar variant="dense">
                     <Typography variant="h6" color="textPrimary">
-                        Jobs
+                        Candidates
                     </Typography>
                     <div className={classes.root} />
                     <Box>              
                         <CustomButton>Import</CustomButton>
                         <CustomButton>Export</CustomButton>
-                        { props.addJob === false ? null : <CustomButton component={Link} to='/app/newjob'>Add Job</CustomButton> }
+                        { props.addJob === false ? null : <CustomButton component={Link} to='/app/newjob'>Add Candidate</CustomButton> }
                     </Box>
                 </Toolbar>
             </AppBar>
