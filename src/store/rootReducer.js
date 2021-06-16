@@ -3,7 +3,8 @@ import employeesReducer from '../Pages/Employees/state/EmployeesReducers';
 import userReducer from '../Pages/Landing/state/UserReducers';
 import jobListingReducer from '../Pages/Landing/state/JobListingReducers';
 import jobsReducer from '../Pages/JobsOpening/state/JobReducers';
-import candidatesReducer from '../Pages/Candidates/state/CandidateReducers';
+import candidatesReducer from '../Pages/Candidates/CandidateListPage/state/CandidateReducers';
+import candidateDetailsReducer from '../Pages/Candidates/CandidateDetailPage/state/CandidateDetailsReducers';
 
 const rootReducer = combineReducers({
     employees: employeesReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     jobListings: jobListingReducer,
     jobs: jobsReducer,
     candidates: candidatesReducer,
+    candidateDetails: candidateDetailsReducer,
     // appTickets: appTicketReducer,
     // users: loginReducer,
     // updatedUsers: registerReducer,

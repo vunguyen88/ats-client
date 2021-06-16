@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import NavBar from '../../components/NavBar';
-import TopBar from '../../components/TopBar';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
+import NavBar from '../../../components/NavBar';
+import TopBar from '../../../components/TopBar';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuBar from './components/MenuBar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,6 +40,7 @@ function CustomLoadingOverlay() {
 export default function CandidatesPage() {
     const classes = useStyles();
     const [loading, setLoading] = useState(true);
+    const history = useHistory();
     const dispatch = useDispatch();
     let columns = [
         { field: 'candidateName', width: 220, renderHeader: () => (<strong style={{ fontSize: 17 }}>Name</strong>)},
@@ -84,7 +86,7 @@ export default function CandidatesPage() {
                     jobApplied: candidate.appliedJobs ? candidate.appliedJobs.length : 0, 
                     email: candidate.email, 
                     appliedOn: moment(candidate.createdOn).format('M/DD/YYYY'), 
-                    id: candidate.userUID,
+                    id: candidate.candidateId,
                     //rating: candidate.rating,
                     zipCode: candidate.zipCode,
                 })
@@ -95,6 +97,11 @@ export default function CandidatesPage() {
         }
         console.log('fetch all candidates after useeffect', data)
     }, [])
+
+    const handleRowClick = (candidate) => {
+        console.log(' PUSHING TO CANDIDATE ', candidate)
+        history.push(`/app/candidates/${candidate.data.id}`);
+    }  
 
 
     return (
@@ -111,7 +118,7 @@ export default function CandidatesPage() {
                                     {...data}
                                     //loading={loading}
                                     pageSize={50}
-                                    //onRowSelected={handleRowClick}
+                                    onRowSelected={handleRowClick}
                                     // components={{
                                     //     LoadingOverlay: CustomLoadingOverlay
                                     // }}
