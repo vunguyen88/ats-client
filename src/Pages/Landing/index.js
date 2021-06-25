@@ -60,7 +60,8 @@ export default function Landing() {
             <div className={classes.right}>
                 {/* {SignInComponent}
                 {SignUpComponent} */}
-                {window.location.href === 'http://localhost:3000/' || window.location.href === 'http://localhost:3000/signin'
+                {/* {window.location.href === 'http://localhost:3000/' || window.location.href === 'http://localhost:3000/signin' */}
+                {window.location.href === 'https://applicant-tracking-syste-74466.web.app/' || window.location.href === 'https://applicant-tracking-syste-74466.web.app/signin'
                     ? <SignIn />
                     : <SignUp />
                 }  

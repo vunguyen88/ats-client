@@ -16,8 +16,8 @@ export const getAllCandidates = () => async(dispatch) => {
 
     console.log('get all candidate in action')
     try {
-        const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/candidates');
-        //console.log('res get all jobs success', res.data)
+        //const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/candidates');
+        const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/candidates');
 
         dispatch({
             type: 'GET_ALL_CANDIDATES_SUCCESS',

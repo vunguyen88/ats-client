@@ -16,8 +16,8 @@ export const getAllJobs = () => async(dispatch) => {
 
     console.log('get all job in action')
     try {
-        const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs');
-        //console.log('res get all jobs success', res.data)
+        //const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs');
+        const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/jobs');
 
         dispatch({
             type: 'GET_ALL_JOBS_SUCCESS',
@@ -31,8 +31,8 @@ export const getAllJobs = () => async(dispatch) => {
 export const addJob = (job) => async(dispatch) => {
 
     try {
-        //const res = await axios.post('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/newjob', job);
-        const res = await axios.post('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/newjob', job);
+        const res = await axios.post('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/newjob', job);
+        //const res = await axios.post('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/newjob', job);
 
         dispatch({
             type: 'ADD_JOB_SUCCESS',

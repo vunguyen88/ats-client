@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export const getAllEmployees = () => async(dispatch) => {
     try {
-        const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/users');
-        //const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/users');
+        //const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/users');
+        const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/users');
         dispatch({
             type: 'GET_ALL_EMPLOYEES_SUCCESS',
             payload: res.data

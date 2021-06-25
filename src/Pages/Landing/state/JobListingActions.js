@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export const getJobListings = () => async(dispatch) => {
     try {
-        //const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/jobs');
-        const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs');
+        const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/jobs');
+        //const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs');
         // console.log('get jobs in action ', res.data)
         dispatch({
             type: 'GET_JOB_LISTINGS_SUCCESS',
@@ -29,7 +29,8 @@ export const applyJob = (candidate) => async(dispatch) => {
         headers: { 'content-type': 'multipart/form-data' }
     }
     try {
-        const res = await axios.post(`http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs/${candidate.jobId}/apply`, formData, config);
+        const res = await axios.post(`https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/jobs/${candidate.jobId}/apply`, formData, config);
+        //const res = await axios.post(`http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs/${candidate.jobId}/apply`, formData, config);
         dispatch({
             type: 'POST_APPLY_JOB_SUCCESS',
             payload: candidate,
