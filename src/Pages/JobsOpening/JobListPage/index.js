@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import NavBar from '../../components/NavBar';
-import TopBar from '../../components/TopBar';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
+import NavBar from '../../../components/NavBar';
+import TopBar from '../../../components/TopBar';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuBar from './components/MenuBar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,8 +39,10 @@ function CustomLoadingOverlay() {
 
 export default function JobsOpeningPage() {
     const classes = useStyles();
-    const [loading, setLoading] = useState(true);
+    //const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
+    const history = useHistory();
+
     let columns = [
         { field: 'jobTitle', width: 250, renderHeader: () => (<strong style={{ fontSize: 17 }}>Job Title</strong>)},
         { field: 'city', width: 150, renderHeader: () => (<strong style={{ fontSize: 17}}>City</strong>)},
@@ -52,13 +55,9 @@ export default function JobsOpeningPage() {
     ]
     const [data, setData] = useState({ columns: columns, rows: [] })
     
-    let jobs = useSelector(state => state.jobs || {});
-    
-
+    const jobs = useSelector(state => state.jobs);
+    let dataRows = []
     useEffect(() => {
-        let dataRows = []
-        dispatch(getAllJobs());
-        console.log('jobs selector ', jobs)
         if (jobs.data) {
             console.log('jobs in useEffect ', jobs)
             jobs.data.forEach(job => {
@@ -74,18 +73,22 @@ export default function JobsOpeningPage() {
                     appliedCandidates: job.appliedCandidates > 0 ? job.appliedCandidates.length : 0
                 })
             })
-            setLoading(false);
-            setData({ columns, rows: dataRows })
             console.log('data ', data)
+            //setLoading(false);
+            setData({ columns, rows: dataRows })
+            
+        } else {
+            console.log('NOT DOING DISPATCH');
+            dispatch(getAllJobs());
         }
-        console.log('fetch all jobs after useeffect', jobs)
-    }, [])
-    
-    // console.log('data in grid ', data)
-    // setLoading(false);
-    
+        
+    }, [jobs])
 
-
+    const handleRowClick = (job) => {
+        console.log(' PUSHING TO JOB ', job.data.id)
+        history.push(`/app/jobs/${job.data.id}`);
+    }  
+    
     return (
         <div className={classes.root}>
             <NavBar style={{display: 'block'}}/>
@@ -100,7 +103,7 @@ export default function JobsOpeningPage() {
                                     {...data}
                                     //loading={loading}
                                     pageSize={50}
-                                    //onRowSelected={handleRowClick}
+                                    onRowSelected={handleRowClick}
                                     // components={{
                                     //     LoadingOverlay: CustomLoadingOverlay
                                     // }}

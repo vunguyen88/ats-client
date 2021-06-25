@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // import NavBar from './components/NavBar';
 // import TopBar from './components/TopBar';
 import EmployeesPage from './Pages/Employees';
-import JobsOpeningPage from './Pages/JobsOpening';
+import JobsOpeningPage from './Pages/JobsOpening/JobListPage';
+import JobDetailsPage from './Pages/JobsOpening/JobDetailPage';
 import AddJobPage from './Pages/JobsOpening/AddJobPage';
 import CandidatesPage from './Pages/Candidates/CandidateListPage';
 import CandidateDetailsPage from './Pages/Candidates/CandidateDetailPage';
@@ -25,6 +26,7 @@ function App() {
             <Route exact path="/" component={LandingPage} /> 
             <Route exact path="/app/employees" component={EmployeesPage} />  
             <Route exact path="/app/jobs" component={JobsOpeningPage} />
+            <Route exact path="/app/jobs/:id" component={JobDetailsPage} /> 
             <Route exact path="/app/newjob" component={AddJobPage} />  
             <Route exact path="/app/candidates" component={CandidatesPage} />
             <Route exact path="/app/candidates/:id" component={CandidateDetailsPage} /> 

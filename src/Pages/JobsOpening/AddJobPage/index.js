@@ -2,9 +2,9 @@ import React from 'react'
 import NavBar from '../../../components/NavBar';
 import TopBar from '../../../components/TopBar';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuBar from '../components/MenuBar';
+import MenuBar from '../JobListPage/components/MenuBar';
 // import UtilityBar from './components/UtilityBar';
-import NewJobForm from '../components/NewJobForm';
+import NewJobForm from '../JobListPage/components/NewJobForm';
 
 const useStyles = makeStyles((theme) => ({
     root: {

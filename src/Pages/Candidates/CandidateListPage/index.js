@@ -63,7 +63,7 @@ export default function CandidatesPage() {
             renderHeader: () => (<strong style={{ fontSize: 17}}>Rating</strong>),
             renderCell: (param) => (
                 <IconButton color='primary' aria-label='Download' href={param.row.resume}>
-                    <GetAppIcon />
+                    <GetAppIcon style={{ color: '#2b506e' }}/>
                 </IconButton>
             )
         },
@@ -72,14 +72,12 @@ export default function CandidatesPage() {
 
     const [data, setData] = useState({ columns: columns, rows: [] })
     
-    let candidates = useSelector(state => state.candidates || {});
+    const candidates = useSelector(state => state.candidates || {});
+    let dataRows = [];
 
     useEffect(() => {
-        let dataRows = []
-        dispatch(getAllCandidates());
-        console.log('candidates selector ', candidates)
         if (candidates.data) {
-            console.log('jobs in useEffect ', candidates)
+            console.log('GET DATA FROM REDUX')
             candidates.data.forEach(candidate => {
                 dataRows.push({ 
                     candidateName: candidate.firstName + ' ' + candidate.lastName, 
@@ -93,16 +91,17 @@ export default function CandidatesPage() {
             })
             setLoading(false);
             setData({ columns, rows: dataRows })
-            console.log('data ', data)
+        } else {
+            console.log('GET DATA FROM DATABASE')
+            dispatch(getAllCandidates());
         }
-        console.log('fetch all candidates after useeffect', data)
-    }, [])
+    }, [candidates])
 
     const handleRowClick = (candidate) => {
         console.log(' PUSHING TO CANDIDATE ', candidate)
         history.push(`/app/candidates/${candidate.data.id}`);
     }  
-
+    console.log('candidate list ', candidates)
 
     return (
         <div className={classes.root}>

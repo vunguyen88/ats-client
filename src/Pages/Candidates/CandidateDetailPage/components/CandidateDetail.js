@@ -419,7 +419,7 @@ export default function CandidateDetail({ candidateDetails }) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {candidateDetails.appliedJobs.map(job => 
+                                {candidateDetails.length > 0 && candidateDetails.appliedJobs.map(job => 
                                     (
                                     <TableRow 
                                         hover

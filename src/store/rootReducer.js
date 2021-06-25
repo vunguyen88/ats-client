@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import employeesReducer from '../Pages/Employees/state/EmployeesReducers';
 import userReducer from '../Pages/Landing/state/UserReducers';
 import jobListingReducer from '../Pages/Landing/state/JobListingReducers';
-import jobsReducer from '../Pages/JobsOpening/state/JobReducers';
+import jobsReducer from '../Pages/JobsOpening/JobListPage/state/JobReducers';
+import jobDetailsReducer from '../Pages/JobsOpening/JobDetailPage/state/JobDetailsReducers'; 
 import candidatesReducer from '../Pages/Candidates/CandidateListPage/state/CandidateReducers';
 import candidateDetailsReducer from '../Pages/Candidates/CandidateDetailPage/state/CandidateDetailsReducers';
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     jobListings: jobListingReducer,
     jobs: jobsReducer,
+    jobDetails: jobDetailsReducer,
     candidates: candidatesReducer,
     candidateDetails: candidateDetailsReducer,
     // appTickets: appTicketReducer,
