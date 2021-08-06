@@ -13,11 +13,15 @@ import axios from 'axios';
 //     }
 // }
 export const getAllCandidates = () => async(dispatch) => {
-
-    console.log('get all candidate in action')
+    let token = localStorage.getItem('token');
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
     try {
-        //const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/candidates');
-        const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/candidates');
+        //const res = await axios.get('http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/candidates', config);
+        const res = await axios.get('https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/candidates', config);
 
         dispatch({
             type: 'GET_ALL_CANDIDATES_SUCCESS',

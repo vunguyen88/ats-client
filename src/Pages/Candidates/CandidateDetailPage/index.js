@@ -7,11 +7,12 @@ import NavBar from '../../../components/NavBar';
 import TopBar from '../../../components/TopBar';
 import MenuBar from '../CandidateListPage/components/MenuBar';
 import CandidateDetail from './components/CandidateDetail';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { getCandidateDetails } from './state/CandidateDetailsActions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.background.dark,
+        backgroundColor: '#f0f0f5',
         display: 'flex',
         height: '100%',
         overflow: 'hidden',
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
     wrapper: {
         flexDirection: 'column', 
         width: '100%',
-        flexGrow: 1
+        flexGrow: 1,
+        marginBottom: '2rem'
     },
     
 }));
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function CandidateDetailPage( {match: { params: {id}}} ) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
     let candidateInfo = {
         appliedJobs: [],
         candidateId: '',
@@ -50,11 +53,13 @@ function CandidateDetailPage( {match: { params: {id}}} ) {
             console.log('GET DATA FROM REDUX')
             for (let i=0; i < candidateList.data.length; i++) {
                 if (candidateList.data[i]['candidateId'] === id)  {
-                    setCandidate({...candidateList.data[i]}, candidateInfo.appliedJobs = [...candidateList.data[i].appliedJobs])
+                    setCandidate({...candidateList.data[i]}, candidateInfo.appliedJobs = [...candidateList.data[i].appliedJobs]);
+                    setLoading(false)
                 }
             }
         } else if (candidateDetails.data !== undefined) {
-            setCandidate({...candidateDetails.data})
+            setCandidate({...candidateDetails.data});
+            setLoading(false);
         } else {
             console.log('GET DATA FROM DATABASE')
             dispatch(getCandidateDetails(id));
@@ -68,6 +73,7 @@ function CandidateDetailPage( {match: { params: {id}}} ) {
             <div className={classes.wrapper}>
                 <TopBar />
                 <MenuBar />
+                {loading ? <LinearProgress /> : null}
                 {candidate ? <CandidateDetail candidateDetails={candidate}/> : <CandidateDetail candidateDetails={candidateDetails.data}/>}
             </div>
         </div> 

@@ -1,7 +1,9 @@
-import React, { useState, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import {Link} from 'react-router-dom';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Alert, AlertTitle } from '@material-ui/lab';
 import { addJob } from '../state/JobActions';
 import moment from 'moment';
 
@@ -14,7 +16,8 @@ import {
     Divider,
     Grid,
     TextField,
-    makeStyles
+    makeStyles,
+    Snackbar,
 } from '@material-ui/core';
 import {
     MuiPickersUtilsProvider,
@@ -136,6 +139,22 @@ function NewJobForm() {
         zipCode: '',
         jobDescription: '',
     })
+    const [successCode, setSuccessCode] = useState(false);
+    const [errorCode, setErrorCode] = useState();
+    const [open, setOpen] = useState(false);
+    const jobs = useSelector(state => state.jobs);
+
+    useEffect(() => {
+        console.log('jobs selector in use effect ', jobs)
+        if(jobs.isLoading === false && jobs.error) {
+            setErrorCode(jobs.error);
+            setOpen(true)
+        } else if (jobs.isLoading === false && jobs.success === true){
+            setSuccessCode(true);
+            setOpen(true)
+        }
+    }, [jobs])
+    
     // const [selectedDate, setDate] = useState(new Date());
 
     const handleChange = (event) => {
@@ -155,6 +174,12 @@ function NewJobForm() {
         //dispatch(userSignUp({ email: state.email, password: state.password, firstName: state.firstName, lastName: state.lastName, role: 'user' }, history))
     }
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
     //console.log('CKEditor is ', editor)
 
     return (
@@ -436,7 +461,7 @@ function NewJobForm() {
                         <Grid container spacing={3}>
                             <Grid item>
                                 <Button
-                                    color="primary"
+                                    style={{backgroundColor: '#0077b3', color: 'white'}}
                                     variant="contained"
                                     type="submit"
                                 >
@@ -457,6 +482,18 @@ function NewJobForm() {
                     </Box>
                 </Card>
             </form>
+            <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+                {(() => {
+                    if (successCode === true) {
+                        return <Alert onClose={handleClose} severity="success">Add new job success </Alert>
+                        // return <Alert onClose={handleClose} severity="success">New job added! Click <Link to={{pathname:'/app/sendgrid', state:{data: newJobResponseData}}}>here </Link> to go to notification page.</Alert>
+                    } else if (errorCode === 403) {
+                        return <Alert onClose={handleClose} severity="error">Authentication expired! Please click <Link to='/' >here</Link> to go back to Login</Alert>
+                    } else {
+                        return <Alert onClose={handleClose} severity="error">Update fail!</Alert>
+                    }
+                })()}
+            </Snackbar>
         </div>
     )
 }

@@ -67,6 +67,7 @@ export default function SettingsPage() {
             <NavBar style={{display: 'block'}}/>
             <div className={classes.wrapper}>
                 <TopBar />
+                <h1>Setting Page is under construction</h1>
                 {/* <MenuBar style={{}}/>
                 <UtilityBar /> */}
                 {/* <Box display="flex">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Box, Button } from '@material-ui/core';
-import AddNewUserDialog from './AddNewUserDialog';
 
 const CustomButton = withStyles({
     root: {
@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MenuBar() {
+export default function MenuBar(props) {
+    // console.log('props', props)
     const classes = useStyles();
 
     return (
@@ -59,14 +60,13 @@ export default function MenuBar() {
             <AppBar position="static" style={{background: '#f2f2f2'}}>
                 <Toolbar variant="dense">
                     <Typography variant="h6" color="textPrimary">
-                        Employees
+                        My profile
                     </Typography>
                     <div className={classes.root} />
-                    <Box display='flex'>              
-                        <CustomButton>Import</CustomButton>
+                    <Box>              
+                        {/* <CustomButton>Import</CustomButton> */}
                         <CustomButton>Export</CustomButton>
-                        {/* <CustomButton>Add Employee</CustomButton> */}
-                        <AddNewUserDialog />
+                        {/* { props.addJob === false ? null : <CustomButton component={Link} to='/app/newjob'>Add Candidate</CustomButton> } */}
                     </Box>
                 </Toolbar>
             </AppBar>

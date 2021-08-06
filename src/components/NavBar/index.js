@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import {Link} from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -14,8 +15,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import AlarmIcon from '@material-ui/icons/Alarm';
+import EmailIcon from '@material-ui/icons/Email';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import WorkIcon from '@material-ui/icons/Work';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 const drawerWidth = 240;
@@ -92,7 +96,7 @@ export default function NavBar() {
     
     const classes = useStyles();
     const theme = useTheme();
-    console.log(theme.direction)
+    //console.log(theme.direction)
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
@@ -128,19 +132,25 @@ export default function NavBar() {
                 }
             </div>
             <Divider />
-            <List>
+            <List style={{position: 'relative', height: '100%'}}>
                 <ListItem button>
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                    edge="start"
-                    className={clsx(classes.menuButton, {
-                        [classes.hide]: open,
-                    })}
-                >
-                    <MenuIcon style={{ color: 'lightGrey' }}/>
-                </IconButton>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        className={clsx(classes.menuButton, {
+                            [classes.hide]: open,
+                        })}
+                    >
+                        <MenuIcon style={{ color: 'lightGrey' }}/>
+                    </IconButton>
+                </ListItem>
+                <ListItem button component={Link} to='/app/dashboard'>
+                    <ListItemIcon>
+                        <DashboardIcon style={{ color: 'lightGrey' }}/>
+                    </ListItemIcon>
+                    <ListItemText style={LIstItemStyle} primary="Dashboard" />
                 </ListItem>
                 <ListItem button component={Link} to='/app/jobs'>
                     <ListItemIcon>
@@ -154,23 +164,38 @@ export default function NavBar() {
                     </ListItemIcon>
                     <ListItemText style={LIstItemStyle} primary="New Hires" />
                 </ListItem>
-                <ListItem button component={Link} to='/app/employees'>
+                <ListItem button component={Link} to='/app/employees' >
                     <ListItemIcon>
                         <PeopleIcon style={{ color: 'lightGrey' }}/>
                     </ListItemIcon>
                     <ListItemText style={LIstItemStyle} primary="Employees" />
                 </ListItem>
-                <ListItem button component={Link} to='/app/timeoff'>
+                <ListItem button component={Link} to='/app/notification' >
+                    <ListItemIcon>
+                        <EmailIcon style={{ color: 'lightGrey' }}/>
+                    </ListItemIcon>
+                    <ListItemText style={LIstItemStyle} primary="Employees" />
+                </ListItem>
+                <ListItem button component={Link} to='/app/timeoff' >
                     <ListItemIcon>
                         <AlarmIcon style={{ color: 'lightGrey' }}/>
                     </ListItemIcon>
                     <ListItemText style={LIstItemStyle} primary="Time Off" />
                 </ListItem>
-                <ListItem button component={Link} to='/app/settings'>
+                <ListItem button component={Link} to='/app/profile' >
+                    <ListItemIcon>
+                        <AccountCircleIcon style={{ color: 'lightGrey' }}/>
+                    </ListItemIcon>
+                    <ListItemText style={LIstItemStyle} primary="My Profile" />
+                </ListItem>
+                {/* <Box mt={5} mb={5}/>
+                <ListItem /> */}
+                {/* style={{position: 'fixed', bottom: 20, width: '80px'}} */}
+                <ListItem button component={Link} to='/app/settings' style={{position: 'absolute', bottom: 10}}>
                     <ListItemIcon>
                         <SettingsIcon style={{ color: 'lightGrey' }}/>
                     </ListItemIcon>
-                    <ListItemText style={LIstItemStyle} primary="Settings" />
+                    {open ? <ListItemText style={LIstItemStyle} primary="Settings" /> : null}
                 </ListItem>
             </List>
         </Drawer>

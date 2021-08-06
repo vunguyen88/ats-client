@@ -24,6 +24,7 @@ export const applyJob = (candidate) => async(dispatch) => {
     formData.append('resume', candidate.fileUpload);
     formData.append('jobTitle', candidate.jobTitle);
     formData.append('clientName', candidate.clientName);
+    formData.append('city', candidate.city);
     
     const config = {     
         headers: { 'content-type': 'multipart/form-data' }
@@ -37,6 +38,10 @@ export const applyJob = (candidate) => async(dispatch) => {
         })
     } catch (err) {
         console.error(err);
+        dispatch({
+            type: 'POST_APPLY_JOB_FAILURE',
+            payload: err
+        })
     }
 }
 // export const addNewEmployee = (userData) => async(dispatch) => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Box, Button } from '@material-ui/core';
+import PopOverButton from '../../../../components/Button/PopOverButton';
 
 const CustomButton = withStyles({
     root: {
@@ -63,10 +64,14 @@ export default function MenuBar(props) {
                         Candidates
                     </Typography>
                     <div className={classes.root} />
-                    <Box>              
-                        <CustomButton>Import</CustomButton>
+                    <Box display='flex'>         
+                        <PopOverButton buttonName={'Import'}/>     
+                        <PopOverButton buttonName={'Export'}/>    
+                        <PopOverButton buttonName={'Add Candidate'}/> 
+                        {/* <CustomButton>Import</CustomButton>
                         <CustomButton>Export</CustomButton>
-                        { props.addJob === false ? null : <CustomButton component={Link} to='/app/newjob'>Add Candidate</CustomButton> }
+                           
+                        { props.addJob === false ? null : <CustomButton component={Link} to='/app/newjob'>Add Candidate</CustomButton> } */}
                     </Box>
                 </Toolbar>
             </AppBar>

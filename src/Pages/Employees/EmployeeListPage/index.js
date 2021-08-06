@@ -1,26 +1,29 @@
-import React, { useEffect } from 'react'
-import NavBar from '../../components/NavBar';
-import TopBar from '../../components/TopBar';
+import React, { useEffect, useState } from 'react'
+import NavBar from '../../../components/NavBar';
+import TopBar from '../../../components/TopBar';
 import MenuBar from './components/MenuBar';
 import UtilityBar from './components/UtilityBar';
 import EmployeeCard from './components/EmployeeCard';
-import { Grid, Box, Typography, InputBase } from '@material-ui/core';
+import { Grid, Box, Typography, InputBase, CircularProgress } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { getAllEmployees } from './state/EmployeesActions';
 import { useForm } from 'react-hook-form';
+import {checkAuth} from '../../../utils/Utils';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex', 
         backgroundColor: '#f0f0f5',
-        height: '100vh'
+        minHeight: '100vh',
+        maxHeight: '100%',
     },
     wrapper: {
         flexDirection: 'column', 
         width: '100%',
-        flexGrow: 1
+        flexGrow: 1,
+        //height: '100%'
     },
     search: {
         display: 'inline',
@@ -70,11 +73,15 @@ function EmployeesPage() {
     let employees = useSelector(state => state.employees || []);
     console.log('employees list ', employees)
     const dispatch = useDispatch();
-
+    // checkAuth()
     useEffect(() => {
         dispatch(getAllEmployees());
-        console.log('fetch data')
     }, [])
+
+    // if(employees) {
+    //     setLoading(false)
+    // }
+
     return (
 
         <div className={classes.root}>
@@ -83,11 +90,12 @@ function EmployeesPage() {
                 <TopBar />
                 <MenuBar style={{}}/>
                 <UtilityBar />
-                <Box display="flex">
+                <Box display="flex" flexWrap="wrap">
                 {employees.map(employee => {
-                    return <EmployeeCard key={employee.userId} firstName={employee.firstName} lastName={employee.lastName} avatarUrl={employee.avatarUrl} jobTitle={employee.jobTitle} department={employee.department} join={employee.join} />
+                    return <EmployeeCard key={employee.userId} employeeInfo={employee} />
                 })}
                 </Box>
+                {employees.length > 0 ? null : <CircularProgress size={50} value={100} thickness={2}/> }
             </div>
         </div>
     )

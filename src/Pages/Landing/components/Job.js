@@ -25,13 +25,16 @@ const useStyles = makeStyles((theme) => ({
     },
     right: {
         width: '91%',
-        //marginLeft: '1rem'
+        marginLeft: '1rem',
+        marginTop: '0.3rem',
         // display: 'flex',
     },
     avatar: {
-        backgroundColor: 'red',
+        backgroundColor: '#6495ED',
         marginLeft: '1rem',
         marginTop: '0.5rem',
+        width: '3.5rem',
+        height: '3.5rem',
     },
     title: {
         backgroundColor: 'yellow',
@@ -96,15 +99,18 @@ const useStyles = makeStyles((theme) => ({
 // })(Button);
 
 export default function Job(props) {
-    console.log('props in job ', props)
+
     const classes = useStyles();
     const dispatch = useDispatch();
+
 
     return (
         <div className={classes.root}>
             <div className={classes.header}>
                 <div className={classes.left}>
-                    <Avatar variant="square" className={classes.avatar}>{props.clientName.slice(0,1)}</Avatar>
+                    {props.logoUrl !== undefined ? <Avatar variant="square" className={classes.avatar} src={props.logoUrl} /> : <Avatar variant="square" className={classes.avatar}>{props.clientName.slice(0,1)}</Avatar>}
+                    {/* <Avatar ariant="square" className={classes.avatar} src='https://www.facebook.com/DenaliAdvancedIntegration/photos/a.429389391902/10155253209646903/' /> */}
+                    {/* <Avatar variant="square" className={classes.avatar}>{props.clientName.slice(0,1)}</Avatar> */}
                 </div>
                 <div className={classes.right}>
                     <Typography align='left' display='block'>
@@ -125,9 +131,8 @@ export default function Job(props) {
             </div>
             <div className={classes.body}>
                 <Typography align='left'>
-                    <Box fontSize={13}>
-                        {/* If you are a Senior Systems Engineering Manager with experience, please read on!
-                        We are a leading simulation company that is looking to add a top engineering manager to our team! If you have ever wanted to work for an Employee owned simulation company where you would report directly to our chief engineer and have a say in everything that happens in our organization while still getting to work on the same government contracts as Lockheed, Raytheon, etc... then this is the position for you! */}{props.jobSummary} ...
+                    <Box fontSize={13} onClick={() => props.clickOpenJob({props, isOpen: true})} style={{cursor: 'pointer'}}>
+                        {props.jobSummary} ...
                     </Box>
                 </Typography>
 
@@ -138,7 +143,7 @@ export default function Job(props) {
                         {/* 2 days ago */}{props.daysPosted} days ago
                     </Box>
                 </Typography>
-                <ApplyJobDialog jobId={props.jobId} jobTitle={props.jobTitle} clientName={props.clientName}>Apply</ApplyJobDialog>
+                <ApplyJobDialog jobId={props.jobId} jobTitle={props.jobTitle} clientName={props.clientName} city={props.city}>Apply</ApplyJobDialog>
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
@@ -8,13 +8,16 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import WorkIcon from '@material-ui/icons/Work';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { Alert, AlertTitle } from '@material-ui/lab';
 import TextsmsIcon from '@material-ui/icons/Textsms';
 import { useHistory } from "react-router-dom";
 import {useForm, Controller} from 'react-hook-form';
 import FileIcon from '../../../../icons/fileIcon.png';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import {
     Avatar,
     Box,
+    Badge,
     Button,
     Card,
     CardContent,
@@ -95,8 +98,8 @@ const useStyles = makeStyles(() => ({
     },
     media: {
         margin: 'auto',
-        width: 60,
-        height: 60
+        width: 80,
+        height: 80
     },
     fileIcon: {
         //width: '10px',
@@ -122,10 +125,14 @@ const useStyles = makeStyles(() => ({
 
 export default function JobDetail({ jobDetails }) {
     console.log('JOB DETAILS PROPS ', jobDetails);
+
     const [openSMSDialog, setOpenSMSDialog] = useState(false);
     const [smsMessage, setSmsMessage] = useState("");
     const history = useHistory();
     const classes = useStyles();
+    const [successCode, setSuccessCode] = useState(false);
+    const [errorCode, setErrorCode] = useState();
+    const [open, setOpen] = useState(false);
 
     const handleSMSDialogClickOpen = () => {
         setOpenSMSDialog(true);
@@ -151,22 +158,93 @@ export default function JobDetail({ jobDetails }) {
         console.log('candidateId', candidateId)
         history.push(`/app/candidates/${candidateId}`);
     }
+
+    const handleAddFile = (event) => {
+        let formData = new FormData(); 
+        // formData.append('firstName', userProfile.firstName);  
+        // formData.append('lastName', userProfile.lastName);
+        // formData.append('userId', userProfile.userId);
+        formData.append('logo', event.target.files[0]);
+        console.log('ADD FILE')
+        let token = localStorage.getItem('token');
+        const config = {     
+            headers: { 
+                'content-type': 'multipart/form-data',
+                Authorization: `Bearer ${token}` 
+            }
+        }
+        axios.put(`https://us-east1-applicant-tracking-syste-74466.cloudfunctions.net/api/jobs/${jobDetails.jobId}/logo`, formData, config,
+        //axios.put(`http://localhost:5000/applicant-tracking-syste-74466/us-east1/api/jobs/${jobDetails.jobId}/logo`, formData, config
+        )
+            .then(res => {
+                console.log('update success')
+                setSuccessCode(true);
+                setOpen(true);
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err);
+                setErrorCode(err.response.status);
+                setOpen(true);
+            })
+        //setState({...state, fileUpload: event.target.files[0]})
+    }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     
     return (
         <Container maxWidth={false}>
             <Box display="flex">
                 <Box display="flex" width="100%" className={classes.titleBox}>
                     <div className={classes.left}>
-                        <CardMedia className={classes.media}><Avatar className={classes.purple, classes.media}><WorkIcon fontSize="large"/></Avatar></CardMedia>
+                        {/* <CardMedia className={classes.media}><Avatar className={classes.purple, classes.media} src={jobDetails.logoUrl}><WorkIcon fontSize="large"/></Avatar></CardMedia> */}
+                        {/* <CardMedia className={classes.media}>{jobDetails.logoUrl ? (<Avatar className={classes.purple, classes.media} src={jobDetails.logoUrl}></Avatar>) : <Avatar className={classes.purple, classes.media} src={jobDetails.logoUrl}><WorkIcon fontSize="large"/></Avatar>}</CardMedia> */}
+                        <CardMedia className={classes.media}>{
+                            jobDetails.logoUrl 
+                                ?   (<Avatar variant='square' className={classes.purple, classes.media} src={jobDetails.logoUrl}></Avatar>) 
+                                :   (<Badge
+                                        overlap="circle"
+                                        anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                        }}
+                                        badgeContent={
+                                            <label htmlFor="fileUpload">
+                                                <input 
+                                                    accept="image/*" 
+                                                    id="fileUpload" 
+                                                    multiple 
+                                                    type="file" 
+                                                    style={{display: 'none'}} 
+                                                    onChange={handleAddFile}
+                                                />
+                                                <Button component="span" style={{position: 'fixed', left:'-15px', top:'5px'}} >
+                                                    <CameraAltIcon style={{color: '#2b506e'}}/>
+                                                </Button>
+                                            </label>
+                                        }
+                                        // onClick={() => console.log('click badge')}
+                                    >
+                                        {/* <Avatar src={jobDetails.logoUrl} className={classes.avatar} /> */}
+
+                                    </Badge>)}
+                            </CardMedia>
+
                     </div>
                     <div className={classes.right}>
-                        <Typography variant="h3" fontWeight="bold" align="left">{jobDetails.jobTitle}</Typography>
+                        <Typography variant="h4" fontWeight="bold" align="left">{jobDetails.jobTitle}</Typography>
                         <Typography align="left">{jobDetails.jobStatus}</Typography>
                     </div>
                 </Box>
                 <Box flexShrink={1} p={3} mr={3}>
                     <Link to={{pathname:`/app/jobs/${jobDetails.jobId}/edit`, state: {details: jobDetails}}}>
-                        <EditIcon fontSize="large" style={{ color: '#2b506e' }}></EditIcon>
+                        <EditIcon fontSize="large" style={{ color: '#2b506e', paddingTop: '15px', paddingRight: '10px' }}></EditIcon>
                     </Link>
                 </Box>
             </Box>
@@ -570,7 +648,9 @@ export default function JobDetail({ jobDetails }) {
                             <Box pl={7} pr={4}> 
                                 <CKEditor
                                     editor={ ClassicEditor }
-                                    data={ jobDetails.jobDescription }
+                                    // data= { (event, editor) => {
+                                    //     console.log('data is ', jobDetails.jobDescription)
+                                    // }}
                                     onReady={ editor => {
                                         editor.editing.view.change((writer) => {
                                             writer.setStyle(
@@ -579,6 +659,7 @@ export default function JobDetail({ jobDetails }) {
                                                 editor.editing.view.document.getRoot()
                                             );
                                         });
+                                        //editor.data = jobDetails.jobDescription
                                     } }
                                     onChange={ ( event, editor ) => {
                                         const data = editor.getData();
@@ -592,6 +673,8 @@ export default function JobDetail({ jobDetails }) {
                                     onFocus={ ( event, editor ) => {
                                         console.log( 'Focus.', editor );
                                     } }
+                                    data={jobDetails.jobDescription}
+
                                 />
                             </Box>
                         </Grid>
@@ -600,6 +683,18 @@ export default function JobDetail({ jobDetails }) {
 
                 </CardContent>
             </Card>
+            <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+                {(() => {
+                    if (successCode === true) {
+                        return <Alert onClose={handleClose} severity="success">Update success </Alert>
+                        // return <Alert onClose={handleClose} severity="success">New job added! Click <Link to={{pathname:'/app/sendgrid', state:{data: newJobResponseData}}}>here </Link> to go to notification page.</Alert>
+                    } else if (errorCode === 403) {
+                        return <Alert onClose={handleClose} severity="error">Authentication expired! Please click <Link to='/' >here</Link> to go back to Login</Alert>
+                    } else {
+                        return <Alert onClose={handleClose} severity="error">Update fail!</Alert>
+                    }
+                })()}
+            </Snackbar>
         </Container>
     )
 }

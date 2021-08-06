@@ -39,7 +39,7 @@ function CustomLoadingOverlay() {
 
 export default function JobsOpeningPage() {
     const classes = useStyles();
-    //const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -59,7 +59,7 @@ export default function JobsOpeningPage() {
     let dataRows = []
     useEffect(() => {
         if (jobs.data) {
-            console.log('jobs in useEffect ', jobs)
+            //console.log('jobs in useEffect ', jobs)
             jobs.data.forEach(job => {
                 dataRows.push({ 
                     jobTitle: job.jobTitle, 
@@ -73,19 +73,19 @@ export default function JobsOpeningPage() {
                     appliedCandidates: job.appliedCandidates > 0 ? job.appliedCandidates.length : 0
                 })
             })
-            console.log('data ', data)
-            //setLoading(false);
+            //console.log('data ', data)
+            setLoading(false);
             setData({ columns, rows: dataRows })
             
         } else {
-            console.log('NOT DOING DISPATCH');
+            //console.log('NOT DOING DISPATCH');
             dispatch(getAllJobs());
+            //setLoading(false);
         }
         
     }, [jobs])
 
     const handleRowClick = (job) => {
-        console.log(' PUSHING TO JOB ', job.data.id)
         history.push(`/app/jobs/${job.data.id}`);
     }  
     
@@ -101,7 +101,7 @@ export default function JobsOpeningPage() {
                             <Box height="700px">
                                 <DataGrid
                                     {...data}
-                                    //loading={loading}
+                                    loading={loading}
                                     pageSize={50}
                                     onRowSelected={handleRowClick}
                                     // components={{

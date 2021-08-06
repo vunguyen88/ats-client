@@ -43,7 +43,7 @@ export default function SignUp() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(state)
+        //console.log(state)
         dispatch(userSignUp({ email: state.email, password: state.password, firstName: state.firstName, lastName: state.lastName, role: 'user' }, history))
     }
 

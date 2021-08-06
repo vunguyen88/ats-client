@@ -42,10 +42,11 @@ export default function CandidatesPage() {
     const [loading, setLoading] = useState(true);
     const history = useHistory();
     const dispatch = useDispatch();
+    const candidates = useSelector(state => state.candidates || {});
     let columns = [
         { field: 'candidateName', width: 220, renderHeader: () => (<strong style={{ fontSize: 17 }}>Name</strong>)},
         { field: 'status', width: 110, renderHeader: () => (<strong style={{ fontSize: 17 }}>Status</strong>)},
-        { field: 'jobApplied', width: 170, renderHeader: () => (<strong style={{ fontSize: 17}}>Job Applied</strong>)},
+        { field: 'jobApplied', width: 320, renderHeader: () => (<strong style={{ fontSize: 17}}>Job Applied</strong>)},
         { field: 'email', width: 230, renderHeader: () => (<strong style={{ fontSize: 17}}>Email</strong>)},
         { field: 'appliedOn', type: 'date', width: 140, renderHeader: () => (<strong style={{ fontSize: 17}}>Applied On</strong>)},
         { field: 'rating', headerName: 'Rating', width: 150, 
@@ -72,7 +73,6 @@ export default function CandidatesPage() {
 
     const [data, setData] = useState({ columns: columns, rows: [] })
     
-    const candidates = useSelector(state => state.candidates || {});
     let dataRows = [];
 
     useEffect(() => {
@@ -81,10 +81,12 @@ export default function CandidatesPage() {
             candidates.data.forEach(candidate => {
                 dataRows.push({ 
                     candidateName: candidate.firstName + ' ' + candidate.lastName, 
-                    jobApplied: candidate.appliedJobs ? candidate.appliedJobs.length : 0, 
+                    // jobApplied: candidate.appliedJobs ? candidate.appliedJobs.length : 0, 
+                    jobApplied: candidate.appliedJobs[0].jobTitle, 
                     email: candidate.email, 
                     appliedOn: moment(candidate.createdOn).format('M/DD/YYYY'), 
                     id: candidate.candidateId,
+                    status: candidate.appliedJobs[0].status,
                     //rating: candidate.rating,
                     zipCode: candidate.zipCode,
                 })
@@ -94,6 +96,7 @@ export default function CandidatesPage() {
         } else {
             console.log('GET DATA FROM DATABASE')
             dispatch(getAllCandidates());
+            //setLoading(false);
         }
     }, [candidates])
 
@@ -115,7 +118,7 @@ export default function CandidatesPage() {
                             <Box height="700px">
                                 <DataGrid
                                     {...data}
-                                    //loading={loading}
+                                    loading={loading}
                                     pageSize={50}
                                     onRowSelected={handleRowClick}
                                     // components={{

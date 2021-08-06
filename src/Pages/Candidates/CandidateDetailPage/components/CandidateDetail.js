@@ -159,7 +159,7 @@ export default function CandidateDetail({ candidateDetails }) {
                         </Box>
                     </div>
                 </Box>
-                <Box display="flex" alignItems="center" p={3} mr={3}>
+                <Box display="flex" alignItems="center" p={3} mr={3} mb={6}>
                     
                     <IconButton color="primary" aria-label="Download" onClick={handleSMSDialogClickOpen} className={classes.fileIcon}>
                         <TextsmsIcon fontSize="large" style={{ color: '#2b506e' }}/> 
@@ -419,7 +419,7 @@ export default function CandidateDetail({ candidateDetails }) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {candidateDetails.length > 0 && candidateDetails.appliedJobs.map(job => 
+                                {candidateDetails.appliedJobs && candidateDetails.appliedJobs.map(job => 
                                     (
                                     <TableRow 
                                         hover
